@@ -49,15 +49,12 @@ Run a prompt by typing its slash command in Chat, using **Chat: Run Prompt...**,
 
 | Step | Prompt | Expected output |
 | --- | --- | --- |
-| 1. Planning | [telemetry-01-planning](.github/prompts/telemetry-01-planning.prompt.md) | Scope, risks, milestones, and backlog |
-| 2. Requirements | [telemetry-02-requirements](.github/prompts/telemetry-02-requirements.prompt.md) | Refined specification and acceptance criteria |
-| 3. Data analysis | [telemetry-03-data-analysis](.github/prompts/telemetry-03-data-analysis.prompt.md) | Source-to-canonical mapping and validation rules |
-| 4. Design | [telemetry-04-design](.github/prompts/telemetry-04-design.prompt.md) | Architecture, UI states, and test boundaries |
-| 5. Implementation | [telemetry-05-implementation](.github/prompts/telemetry-05-implementation.prompt.md) | A working, tested vertical slice |
-| 6. Testing | [telemetry-06-testing](.github/prompts/telemetry-06-testing.prompt.md) | Automated tests and acceptance evidence |
-| 7. Review | [telemetry-07-review](.github/prompts/telemetry-07-review.prompt.md) | Prioritized, evidence-based findings |
-| 8. Release | [telemetry-08-release](.github/prompts/telemetry-08-release.prompt.md) | Reproducible local demo setup and release checklist |
-| 9. Maintenance | [telemetry-09-maintenance](.github/prompts/telemetry-09-maintenance.prompt.md) | Reproduced issue, focused fix, and regression test |
+| 1. Planning | [planning](.github/prompts/planning.prompt.md) | Scope, risks, milestones, and backlog |
+| 2. Requirements | [requirements](.github/prompts/requirements.prompt.md) | Refined specification and acceptance criteria |
+| 3. Design | [design](.github/prompts/design.prompt.md) | Architecture, UI states, and test boundaries |
+| 4. Implementation | [implementation](.github/prompts/implementation.prompt.md) | A working, tested vertical slice |
+| 5. Testing | [testing](.github/prompts/testing.prompt.md) | Automated tests and acceptance evidence |
+| 6. Review | [review](.github/prompts/review.prompt.md) | Prioritized, evidence-based findings |
 
 Review and planning prompts do not authorize application code changes. Other prompts have explicit, phase-specific boundaries. Review phase outputs before starting the next step; ask the agent to pause after any phase when a manual checkpoint is needed.
 
