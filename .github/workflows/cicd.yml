@@ -1,0 +1,90 @@
+name: CI/CD Pipeline - Dry Run
+
+on:
+  push:
+    branches: main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dry run
+        run: echo "Lint job - dry run"
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Dry run
+        run: echo "Build job - dry run"
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Dry run
+        run: echo "Test job - dry run"
+
+  artifact-upload:
+    name: Upload Artifacts
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    steps:
+      - name: Dry run
+        run: echo "Artifact upload - dry run"
+
+  deploy:
+    name: Deploy to AWS EC2
+    runs-on: ubuntu-latest
+    needs: artifact-upload
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.EC2_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Run Datetime
+        uses: ajayg2808/datetime@v1.2.0
+        with:
+          timezone: "Asia/Kolkata"
+          format: "%Y-%m-%d %H:%M:%S"
+
+      - name: Write UTC timestamp file on EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          DATETIME: ${{ steps.datetime.outputs.datetime }}
+        run: |
+          ssh -i ~/.ssh/id_deploy \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            "ubuntu@${EC2_HOST}" \
+            "echo '${DATETIME}' > /home/ubuntu/timestamp.txt"
+
+      - name: Remove SSH key
+        if: always()
+        run: rm -f ~/.ssh/id_deploy
+
+  summary:
+    name: Workflow Summary
+    runs-on: ubuntu-latest
+    needs: [lint, build, test, artifact-upload, deploy]
+    if: always()
+    steps:
+      - name: Dry run
+        run: echo "Workflow complete - dry run"
