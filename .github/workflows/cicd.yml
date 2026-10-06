@@ -58,6 +58,7 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
 
       - name: Run Datetime
+        id: datetime
         uses: ajayg2808/datetime@v1.2.0
         with:
           timezone: "Asia/Kolkata"
